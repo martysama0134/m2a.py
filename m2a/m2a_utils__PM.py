@@ -361,7 +361,7 @@ def pma_loader(modulename, pin):
 	import re
 	re_findall = re.findall
 
-	module_dataX = open(modulename, "r")
+	module_dataX = open(modulename+".pma", "r")
 	module_data = module_dataX.read().split("\n")
 	module_dataX.close(); del module_dataX
 	#m_process = ''
