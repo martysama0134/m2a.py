@@ -92,9 +92,9 @@ LFR2_TYPE_EXTS = {
 LFR2_SKIP_EXTS = ("Thumbs.db","server_attr",".bak",".exe",".psd",".xml","~")
 
 listPackTypes = {
-	20:("item_proto","mob_proto","mp3","pyd","dds","gr2","jpg","png"),
-	21:("atr","bmp","mde","msf","pyc","raw","sfk","spt","tga","uvw","ifl","mdatr","msenv","pra","prb","prd","pre","prt","scc","sub","wav","wtr"),
-	22:("msa","mse","msk","msm","mss","py","txt"),
+	0:("item_proto","mob_proto","mp3","pyd","dds","gr2","jpg","png"),
+	1:("atr","bmp","mde","msf","pyc","raw","sfk","spt","tga","uvw","ifl","mdatr","msenv","pra","prb","prd","pre","prt","scc","sub","wav","wtr"),
+	2:("msa","mse","msk","msm","mss","py","txt"),
 }
 
 
