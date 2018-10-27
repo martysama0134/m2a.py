@@ -12,6 +12,12 @@ This tool is for:
 - mob_proto (pre&post 2011=235&255 structs + new ones)
 - locale_%s.addr (2011&2013 structs)
 
+### On Python3 only
+You will need to install python-lzo and xtea3
+```
+pip install python-lzo && pip install xtea3
+```
+
 ### Usage
 How to easily pack/unpack root:
 ```python
@@ -27,7 +33,7 @@ How to easily pack/unpack root:
 You can also use the relative drag&drop `.bat` files, and the `m2a_g.py`. Don't also forget to check the relative documentation by using `help(m2a)` and much more.
 
 ### Settings
-Settings are in the `m2a/__init__.py`.
+Settings are in the `m2a/m2a.py`.
 
 ### Build deps on FreeBSD/elsewhere
 Inside the `dep/_src/_c` folder you can find the relative `Makefile`. You just need to go there and do:
