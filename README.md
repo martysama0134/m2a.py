@@ -42,7 +42,7 @@ In case you get the _"lzomodule.c:35:10: fatal error: lzo/lzo1x.h: No such file 
 sudo apt install liblzo2-dev
 ```
 
-#### Suggested Updates
+### Suggested Updates
 - `with open` refactoring
 - new proto structs
 
