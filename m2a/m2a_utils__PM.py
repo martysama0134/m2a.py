@@ -504,7 +504,7 @@ def eix_maker(modulename, pin, m_header):
 
 		tmp_sfile = len(tmp_file)
 		tmp_crcfile = crc32(tmp_file)&0xFFFFFFFF
-		if idx['type']==0 or idx['type']==10 or idx['type']==20:
+		if idx['type']==0:
 			tmp_rsfile = tmp_sfile + (256 - (tmp_sfile % 256))
 			epk_out_write(tmp_file)#+nullpadding(tmp_rsfile-tmp_sfile))
 
@@ -513,7 +513,7 @@ def eix_maker(modulename, pin, m_header):
 			eix_out_write(pack("I", tmp_crcfile)) #data_crc #180
 
 			add_off = tmp_sfile#tmp_rsfile#tmp_sfile
-		elif idx['type']==1 or idx['type']==11 or idx['type']==21:
+		elif idx['type']==1:
 			tmp_file1 = lzo_compress(tmp_file, LZO_COMPRESSION_LEVEL)
 			tmp_dsize1 = unpack("!L", tmp_file1[1:5])
 			tmp_fileb1 = tmp_file1[5:]
@@ -528,7 +528,7 @@ def eix_maker(modulename, pin, m_header):
 			eix_out_write(pack("I", crc32(tmp_file1)&0xFFFFFFFF)) #data_crc #180
 
 			add_off = tmp_csize1+20#tmp_rsfile#tmp_csize1+20
-		elif idx['type']==2 or idx['type']==12 or idx['type']==22:
+		elif idx['type']==2:
 			tmp_file1 = lzo_compress(tmp_file, LZO_COMPRESSION_LEVEL)
 			tmp_dsize1 = unpack("!L", tmp_file1[1:5])
 			tmp_fileb1 = tmp_file1[5:]
