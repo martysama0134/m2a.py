@@ -10,7 +10,7 @@
 #std
 import struct
 #nstd
-import _xtea
+import xtea3 as _xtea
 #pkg
 from m2a import MT2_XTEAKEY_ADDR
 

@@ -12,7 +12,7 @@ import struct
 from time import strftime
 #nstd
 import lzo
-import _xtea
+import xtea3 as _xtea
 #pkg
 from m2a import MPROTO_STRUCT_TYPE, MT2_MAGIC1, MT2_MAGIC4, MT2_XTEAKEY_MPX, LZO_COMPRESSION_LEVEL, EXT_DEBUG_MODE
 
@@ -301,6 +301,3 @@ def mproto_save(mpin, mpout, m_count):
 	mpp_outX = open(mpout, "wb")
 	mpp_outX.write(mpp_h1+mpp_hl2+mp_out5)
 	mpp_outX.close()
-
-
-

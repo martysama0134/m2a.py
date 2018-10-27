@@ -12,7 +12,7 @@ import struct
 from time import strftime
 #nstd
 import lzo
-import _xtea
+import xtea3 as _xtea
 #pkg
 from m2a import MT2_MAGIC1, MT2_MAGIC3, MT2_XTEAKEY_IPX, LZO_COMPRESSION_LEVEL, EXT_DEBUG_MODE
 

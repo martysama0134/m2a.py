@@ -14,10 +14,8 @@ import time
 GetPath = os.getcwd
 SetPath = os.chdir
 
-from m2a_utils__PM import \
-	eix_load, eix_analyze, epk_load, eix_save, eix_maker,\
-	pma_generate, pma_maker, pma_loader, xml_maker, lfr2_loader,\
-	EXT_DEBUG_MODE
+from m2a_utils__PM import *
+
 class PackManager(object):
 	'''Metin2 Pack Archiver Module
 	Extract:
@@ -50,7 +48,7 @@ class PackManager(object):
 		pma_maker(self.module, f)
 		epk_load(self.module, f)
 
-		print time.time()-t_start
+		print (time.time()-t_start)
 	def Extract_ALL(self, path="."):
 		t_start = time.time()
 
@@ -58,10 +56,10 @@ class PackManager(object):
 		for cmp_f in cmp_file:
 			if cmp_f.endswith(".eix"):
 				self.module = ".".join(cmp_f.split(".")[:-1]).lower()
-				print "Processing... %s"%self.module
+				print ("Processing...{}".format(self.module))
 				self.Extract()
 
-		print time.time()-t_start
+		print (time.time()-t_start)
 	def Extract_PMAONLY(self):
 		t_start = time.time()
 		global eix_load, eix_analyze, pma_maker
@@ -70,7 +68,7 @@ class PackManager(object):
 		f = eix_analyze(e)
 		pma_maker(self.module, f)
 
-		print time.time()-t_start
+		print (time.time()-t_start)
 	def Extract_PMAONLY_ALL(self, path="."):
 		t_start = time.time()
 
@@ -78,10 +76,10 @@ class PackManager(object):
 		for cmp_f in cmp_file:
 			if cmp_f.endswith(".eix"):
 				self.module = ".".join(cmp_f.split(".")[:-1]).lower()
-				print "Processing... %s"%self.module
+				print ("Processing... {}".format(self.module))
 				self.Extract_PMAONLY()
 
-		print time.time()-t_start
+		print (time.time()-t_start)
 	def Extract_XMLONLY(self):
 		t_start = time.time()
 		global eix_load, eix_analyze, xml_maker
@@ -90,7 +88,7 @@ class PackManager(object):
 		f = eix_analyze(e)
 		xml_maker(self.module, f)
 
-		print time.time()-t_start
+		print (time.time()-t_start)
 	def Extract_XMLONLY_ALL(self, path="."):
 		t_start = time.time()
 
@@ -98,10 +96,10 @@ class PackManager(object):
 		for cmp_f in cmp_file:
 			if cmp_f.endswith(".eix"):
 				self.module = ".".join(cmp_f.split(".")[:-1]).lower()
-				print "Processing... %s"%self.module
+				print ("Processing... {}".format(self.module))
 				self.Extract_XMLONLY()
 
-		print time.time()-t_start
+		print (time.time()-t_start)
 	def Compact(self):
 		t_start = time.time()
 		global pma_loader, eix_maker, eix_save
@@ -109,7 +107,7 @@ class PackManager(object):
 		a = eix_maker(*pma_loader(self.module, self.pin))
 		eix_save(self.module, self.pin, self.pout, *a)
 
-		print time.time()-t_start
+		print (time.time()-t_start)
 	def Compact_ALL(self, path="."):
 		t_start = time.time()
 
@@ -117,10 +115,10 @@ class PackManager(object):
 		for cmp_f in cmp_file:
 			if cmp_f.endswith(".pma"):
 				self.module = ".".join(cmp_f.split(".")[:-1]).lower()
-				print "Processing... %s"%self.module
-				self.Compact()
+				print ("Processing... {}".format(self.module))
+			self.Compact()
 
-		print time.time()-t_start
+		print (time.time()-t_start)
 	def CompactLFR2(self):
 		t_start = time.time()
 		global lfr2_loader, eix_maker, eix_save
@@ -128,7 +126,7 @@ class PackManager(object):
 		a = eix_maker(*lfr2_loader(self.module, self.pin))
 		eix_save(self.module, self.pin, self.pout, *a)
 
-		print time.time()-t_start
+		print (time.time()-t_start)
 	def CompactLFR2_ALL(self, path="."):
 		t_start = time.time()
 
@@ -136,14 +134,14 @@ class PackManager(object):
 		for cmp_f in cmp_file:
 			if cmp_f.endswith(".lfr"):
 				self.module = ".".join(cmp_f.split(".")[:-1]).lower()
-				print "Processing... %s"%self.module
+				print ("Processing... {}".format(self.module))
 				self.CompactLFR2()
 
-		print time.time()-t_start
+		print (time.time()-t_start)
 	def Generate_PMAONLY(self):
 		t_start = time.time()
 		pma_generate(self.module)
-		print time.time()-t_start
+		print (time.time()-t_start)
 
 from m2a_utils__IPM import iproto_load, ima_maker, ima_loader, iproto_save
 class IProtoManager(object):
@@ -168,7 +166,7 @@ class IProtoManager(object):
 		a = iproto_load(self.iproto)
 		ima_maker(self.iproto, *a)
 
-		print time.time()-t_start
+		print (time.time()-t_start)
 	def Compact(self):
 		t_start = time.time()
 
@@ -176,12 +174,12 @@ class IProtoManager(object):
 		a = ima_loader(self.iproto)
 		iproto_save(self.iproto+self.ipin, self.iproto+self.ipout, *a)
 
-		print time.time()-t_start
+		print (time.time()-t_start)
 	def ConvertIMA2SQL(mode=0):
 		t_start = time.time()
 
 		pass
-		print time.time()-t_start
+		print (time.time()-t_start)
 
 
 from m2a_utils__MPM import mproto_load, mma_maker, mma_loader, mproto_save
@@ -207,7 +205,7 @@ class MProtoManager(object):
 		a = mproto_load(self.mproto)
 		mma_maker(self.mproto, *a)
 
-		print time.time()-t_start
+		print (time.time()-t_start)
 	def Compact(self):
 		t_start = time.time()
 
@@ -215,12 +213,10 @@ class MProtoManager(object):
 		a = mma_loader(self.mproto)
 		mproto_save(self.mproto+self.mpin, self.mproto+self.mpout, a)
 
-		print time.time()-t_start
+		print (time.time()-t_start)
 	def ConvertMMA2SQL(mode=0):
 		t_start = time.time()
-
-		pass
-		print time.time()-t_start
+		print (time.time()-t_start)
 
 from m2a_utils__AM import laddr_load, laddr_save
 class AddrManager(object): #addr_archiver.py ctrl+c -> ctrl+v here
@@ -246,7 +242,7 @@ class AddrManager(object): #addr_archiver.py ctrl+c -> ctrl+v here
 		daddrX.write(str(daddr))
 		daddrX.close()
 
-		print time.time()-t_start
+		print (time.time()-t_start)
 	def Compact(self):
 		t_start = time.time()
 
@@ -257,12 +253,4 @@ class AddrManager(object): #addr_archiver.py ctrl+c -> ctrl+v here
 		global laddr_save
 		laddr_save(daddr, self.laddr)
 
-		print time.time()-t_start
-
-
-
-
-
-
-
-
+		print (time.time()-t_start)

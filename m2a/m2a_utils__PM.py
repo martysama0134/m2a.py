@@ -13,7 +13,7 @@ import sys
 import struct
 #nstd
 import lzo
-import _xtea
+import xtea3 as _xtea
 
 from m2a import EIX_EXTS,EPK_EXTS,MT2_MAGIC1,MT2_MAGIC2,\
 	EIX_COMPRESSION,LZO_COMPRESSION_LEVEL,\
@@ -40,7 +40,7 @@ def eix_load(modulename):
 	eix_file = open(filename, "rb")
 	eix_s = eix_file.read(16)
 	if(len(eix_s)<16):
-		raise PMAExtractError, "The %s eix-file is too small. (header missing?)"%filename
+		raise (PMAExtractError, "The %s eix-file is too small. (header missing?)"%filename)
 	eix_header["magic"] = eix_s[0:4]
 	eix_res,eix_data = None,None
 	if eix_header["magic"] in (MT2_MAGIC1,):
@@ -52,17 +52,17 @@ def eix_load(modulename):
 		# print eix_header["esize"],eix_header["csize"],eix_header["dsize"]
 		eix_data = eix_file.read(eix_header["esize"])
 		if not eix_data or len(eix_data)<eix_header["csize"]:
-			raise PMAExtractError, "The %s eix-file is too small. (data missing?)"%filename
+			raise (PMAExtractError, "The %s eix-file is too small. (header missing?)"%filename)
 		#print eix_header["csize"]
 		eix_res = eix_unpack_LZO(*eix_unpack_XTEA(eix_data, eix_header))
 	elif eix_header["magic"]==MT2_MAGIC2:
 		eix_file.seek(0)
 		eix_data = eix_file.read()
 		if not eix_data:
-			raise PMAExtractError, "The %s eix-file is too small. (data missing?)"%filename
+			raise (PMAExtractError, "The %s eix-file is too small. (header missing?)"%filename)
 		eix_res = eix_data
 	else:
-		raise PMAExtractError, "The %s eix-file has an unrecognized magic header."%filename
+		raise (PMAExtractError, "The %s eix-file has an unrecognized magic header."%filename)
 	eix_file.close();del eix_file
 
 	del unpack
@@ -78,7 +78,7 @@ def eix_unpack_XTEA(eix_data1, eix_header):
 	global FILENAME_G,EXT_DEBUG_MODE
 	filename = FILENAME_G
 	if eix_header["esize"]==0:
-		raise PMAExtractError, "The %s eix-file has not an encrypted index. (wrong file?)"%filename
+		raise (PMAExtractError, "The %s eix-file has not an encrypted index. (wrong file?)"%filename)
 
 	if EXT_DEBUG_MODE:
 		ttt=open("%s._inxtea"%filename, "wb");ttt.write(eix_data1);ttt.close()
@@ -94,7 +94,7 @@ def eix_unpack_XTEA(eix_data1, eix_header):
 		ttt=open("%s._inxtea"%filename, "wb");ttt.write(eix_data1);ttt.close()
 		ttt=open("%s._unxtea"%filename, "wb");ttt.write(eix_decrypted);ttt.close()
 	if eix_decrypted[0:4] not in (MT2_MAGIC1,):
-		raise PMAExtractError, "The %s eix-file has an unrecognized xtea key."%(filename)
+		raise (PMAExtractError, "The %s eix-file has an unrecognized xtea key."%(filename))
 	return eix_decrypted[4:eix_header["csize"]+1]+"\x11\0\0", eix_header["dsize"]
 def eix_unpack_LZO(eix_data2, out_len):
 	pack = struct.pack
@@ -107,7 +107,7 @@ def eix_analyze(eix_data3):
 	eix_header["version"] = unpack("I", eix_data3[4:8])[0]
 	eix_header["count"] = unpack("I", eix_data3[8:12])[0]
 	if eix_header["version"]!=2:
-		raise PMAExtractError, "The %d eix-version is not supported."%eix_header["version"]
+		raise (PMAExtractError, "The %d eix-version is not supported."%eix_header["version"])
 	import cStringIO
 	eix_sio = cStringIO.StringIO(eix_data3[12:])
 	eix_sio_read = eix_sio.read
@@ -209,14 +209,14 @@ def epk_load(modulename, eix_index):
 				out_nameX.write(epk_data0)
 				out_nameX.close()
 			else:
-				print "<bug!>\n%s\n%s"%(str(epk_header),str(idx))
+				print ("<bug!>\n%s\n%s"%(str(epk_header),str(idx)))
 		elif idx["compressed_type"] == 1:
 			if DEBUG_MODE:
 				bla2.write(str(epk_header)+"\n")
 			epk_file_seek(idx["data_position"]+16)
 			if epk_file_read(4)!=MT2_MAGIC1:
-				print epk_header, idx
-				raise PMAExtractError, "The %s epk-file has an unrecognized lzo compression."%filename
+				print (epk_header, idx)
+				raise (PMAExtractError, "The %s epk-file has an unrecognized lzo compression."%filename)
 			epk_data0 = epk_file_read(epk_header["csize"])
 			epk_data1 = lzo_decompress("\xf0"+pack("!L", epk_header["dsize"])+epk_data0[:-3]+"\x11\0\0")
 			out_name = pathcheck(idx["filename"])
@@ -227,7 +227,7 @@ def epk_load(modulename, eix_index):
 				if EXT_DEBUG_MODE:
 					ttt=open("%s.load.unlzo"%out_name, "wb");ttt.write(epk_data1);ttt.close()
 			else:
-				print "<bug!>\n%s\n%s"%(str(epk_header),str(idx))
+				print ("<bug!>\n%s\n%s"%(str(epk_header),str(idx)))
 		elif idx["compressed_type"] == 2:
 			if DEBUG_MODE:
 				bla2.write(str(epk_header)+"\n")
@@ -241,8 +241,8 @@ def epk_load(modulename, eix_index):
 			epk_data1 = xtea_decrypt_all(epk_data0, MT2_XTEAKEY_DATA)
 			#epk_data1 = xtea_decrypt_all(epk_data0+nullpadding(len(epk_data0)), MT2_XTEAKEY_DATA)
 			if epk_data1[0:4]!=MT2_MAGIC1:
-				print epk_header, idx
-				raise PMAExtractError, "The %s epk-file has an unrecognized xtea key."%filename
+				print (epk_header, idx)
+				raise (PMAExtractError, "The %s epk-file has an unrecognized xtea key."%filename)
 			#print epk_data1[4].encode('hex')
 			#print idx, len(epk_data1), epk_header
 			epk_data1b = epk_data1[4:epk_header["csize"]+1]+"\x11\0\0"
@@ -260,10 +260,10 @@ def epk_load(modulename, eix_index):
 					ttt=open("%s.load.unxtea"%out_name, "wb");ttt.write(epk_data1);ttt.close()
 					ttt=open("%s.load.unlzo"%out_name, "wb");ttt.write(epk_data1b);ttt.close()
 			else:
-				print "<bug!>\n%s\n%s"%(str(epk_header),str(idx))
+				print ("<bug!>\n%s\n%s"%(str(epk_header),str(idx)))
 			#open(out_name, "wb").write(epk_data2)
 		else:
-			print "The %d type is not supported."%idx["compressed_type"]
+			print ("The %d type is not supported."%idx["compressed_type"])
 		#epk_data0,epk_data1,epk_data1b,epk_data2,epk_header=None,None,None,None,{}
 	if DEBUG_MODE:
 		bla2.close()
@@ -300,7 +300,7 @@ def pma_generate(modulename):
 			for el2 in el1:
 				if fileName.endswith(el2):
 					return ty1
-		print "no type found for %s"%fileName
+		print ("no type found for %s"%fileName)
 		return 0
 	def fixSlashes(fileName):
 		if "\\" in fileName:
@@ -357,11 +357,11 @@ def pma_loader(modulename, pin):
 		os_path_exists = os.path.exists
 		for m_data in m_header:
 			if not os_path_exists(m_data['r_path']):
-				raise PMACompactError, "%s file not exists"%m_data['r_path']
+				raise (PMACompactError, "%s file not exists"%m_data['r_path'])
 	import re
 	re_findall = re.findall
 
-	module_dataX = open(modulename+".pma", "r")
+	module_dataX = open(modulename, "r")
 	module_data = module_dataX.read().split("\n")
 	module_dataX.close(); del module_dataX
 	#m_process = ''
@@ -412,16 +412,16 @@ def deduct_type(module_data, rexme):
 								for lte_el in lte_t:
 									if v_path_endswith(lte_el):
 										m_type2 = lte_i
-										raise GoOut3rdLevelLoop
+										raise (GoOut3rdLevelLoop)
 							except GoOut3rdLevelLoop:
 								break
 							for lse_el in LFR2_SKIP_EXTS:
 								if v_path_endswith(lse_el):
-									print v_path, "skipped (illegal extension %s)"%lse_el
-									raise GoOut2ndLevelLoop
+									print (v_path, "skipped (illegal extension %s)"%lse_el)
+									raise (GoOut2ndLevelLoop)
 							if os_path_isdir(r_path):
-								print v_path, "skipped (path %s)"%r_path
-								raise GoOut2ndLevelLoop
+								print (v_path, "skipped (path %s)"%r_path)
+								raise (GoOut2ndLevelLoop)
 					except GoOut2ndLevelLoop:
 						continue
 			m_header.append({'type':m_type2,'v_path':v_path,'r_path':r_path})
@@ -431,7 +431,7 @@ def lfr2_loader(modulename, pin):
 		os_path_exists = os.path.exists
 		for m_data in m_header:
 			if not os_path_exists(m_data['r_path']):
-				raise PMACompactError, "%s file not exists"%m_data['r_path']
+				raise (PMACompactError, "%s file not exists"%m_data['r_path'])
 	import re
 	re_findall = re.findall
 
@@ -550,7 +550,7 @@ def eix_maker(modulename, pin, m_header):
 
 			add_off = tmp_esize2+16#tmp_rsfile#tmp_esize2+16
 		else:
-			raise PMACompactError, "Unrecognized type %d"%idx['type']
+			raise (PMACompactError, "Unrecognized type %d"%idx['type'])
 
 		eix_out_write(pack("I", loff)) #data_position 184
 		loff+=add_off
@@ -596,14 +596,14 @@ def eix_save(modulename, pin, pout, m_version, m_len):
 		eix_new.write(MT2_MAGIC2+pack("I", m_version)+pack("I", m_len))
 		eix_new.write(eix_raw.read())
 	else:
-		raise PMACompactError, "%s eix compression not exists"%EIX_COMPRESSION
+		raise (PMACompactError, "%s eix compression not exists"%EIX_COMPRESSION)
 	eix_raw.close(); del eix_raw
 	eix_new.close(); del eix_new
 
 	try: os.remove(modulename+pout+EPK_EXTS)
 	except: pass#print sys.exc_info()[:2],0,modulename+pout+EPK_EXTS
 	try: os.remove(modulename+pin[0])
-	except: print sys.exc_info()[1],1
+	except: print (sys.exc_info()[1],1)
 	try: os.rename(modulename+pin[1], modulename+pout+EPK_EXTS)
-	except: print sys.exc_info()[1],2
+	except: print (sys.exc_info()[1],2)
 #
