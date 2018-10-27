@@ -1,6 +1,7 @@
 # m2a.py
-Metin2 Python Archiver
+## Metin2 Python Archiver
 
+### General
 This is an old 2013 project (py22 backward-compatible), but it works perfectly fine. It can be run on Windows, FreeBSD and everywhere else.
 Anything is written in python, and just the xtea/lzo algorithms are extended as PYD (cpython).
 The execution (compress/decompress) is very fast.
@@ -11,6 +12,7 @@ This tool is for:
 - mob_proto (pre&post 2011=235&255 structs + new ones)
 - locale_%s.addr (2011&2013 structs)
 
+### Usage
 How to easily pack/unpack root:
 ```python
 >>> import m2a
@@ -21,4 +23,15 @@ How to easily pack/unpack root:
 ```
 You can also use the relative drag&drop `.bat` files, and the `m2a_g.py`. Don't also forget to check the relative documentation by using `help(m2a)` and much more.
 
+### Settings
+Settings are in the `m2a/__init__.py`.
+
+### Build deps on FreeBSD/elsewhere
+Inside the `dep/_src/_c` folder you can find the relative `Makefile`. You just need to go there and do:
+```sh
+cd m2a.py/dep/_src/_c
+make
+```
+
+### Credits
 Copyright © 2018 martysama0134 All rights reserved.
