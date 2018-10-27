@@ -7,7 +7,7 @@ Anything is written in python, and just the xtea/lzo algorithms are extended as 
 The execution (compress/decompress) is very fast.
 
 This tool is for:
-- eter packs (eix&epk MCOZ&EPKD structs)
+- eter packs (eix&epk MCOZ&EPKD structs and types 0-1-2)
 - item_proto (152&156 structs + new ones)
 - mob_proto (pre&post 2011=235&255 structs + new ones)
 - locale_%s.addr (2011&2013 structs)
