@@ -19,6 +19,6 @@ How to easily pack/unpack root:
 >>> m2a.PM("root", "").Compact()
 0.150000095367
 ```
-You can also use the relative drag&drop .bat files, and the `m2a_g.py`. Don't also forget to check the relative documentation by using `help(m2a)` and much more.
+You can also use the relative drag&drop `.bat` files, and the `m2a_g.py`. Don't also forget to check the relative documentation by using `help(m2a)` and much more.
 
 Copyright © 2018 martysama0134 All rights reserved.
