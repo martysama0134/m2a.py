@@ -33,5 +33,11 @@ cd m2a.py/dep/_src/_c
 make
 ```
 
+#### Install lzo on Linux/Ubuntu
+In case you get the _"lzomodule.c:35:10: fatal error: lzo/lzo1x.h: No such file or directory"_ error:
+```sh
+sudo apt install liblzo2-dev
+```
+
 ### Credits
 Copyright © 2018 martysama0134 All rights reserved.
