@@ -1,5 +1,5 @@
 # m2a.py
-## Metin2 Python Archiver
+## Python Metin2 Archiver
 
 ### General
 This is an old 2013 project (py22 backward-compatible), but it works perfectly fine. It can be run on Windows, FreeBSD and everywhere else.
@@ -18,8 +18,11 @@ How to easily pack/unpack root:
 >>> import m2a
 >>> m2a.PM("root").Extract()
 0.305999994278
+### pack again, the second field is a postfix ("" overwrites the previous eix epk)
 >>> m2a.PM("root", "").Compact()
 0.150000095367
+### to generate the .pma (index file) of a specific pack folder:
+>>> m2a.PM("root", "").Generate_PMAONLY()
 ```
 You can also use the relative drag&drop `.bat` files, and the `m2a_g.py`. Don't also forget to check the relative documentation by using `help(m2a)` and much more.
 
