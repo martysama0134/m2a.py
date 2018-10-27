@@ -1,0 +1,26 @@
+# default behavior (doesn't do anything)
+* text=auto
+
+# git files
+.gitattributes eol=lf
+.gitignore eol=lf
+
+*.nfo eol=lf
+*.pyd binary
+*.c eol=lf
+*.py eol=lf
+Makefile eol=lf
+*.rar binary
+*.sln eol=crlf
+*.vcxproj eol=crlf
+*.filters eol=crlf
+*.user eol=crlf
+*.bat eol=crlf
+*.sh eol=lf
+*.dll binary
+*.pyc binary
+*.pyd binary
+*.pyo binary
+*.exe binary
+*.txt eol=lf
+
