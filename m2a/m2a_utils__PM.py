@@ -52,14 +52,14 @@ def eix_load(modulename):
 		# print eix_header["esize"],eix_header["csize"],eix_header["dsize"]
 		eix_data = eix_file.read(eix_header["esize"])
 		if not eix_data or len(eix_data)<eix_header["csize"]:
-			raise (PMAExtractError, "The %s eix-file is too small. (header missing?)"%filename)
+			raise (PMAExtractError, "The %s eix-file is too small. (data missing?)"%filename)
 		#print eix_header["csize"]
 		eix_res = eix_unpack_LZO(*eix_unpack_XTEA(eix_data, eix_header))
 	elif eix_header["magic"]==MT2_MAGIC2:
 		eix_file.seek(0)
 		eix_data = eix_file.read()
 		if not eix_data:
-			raise (PMAExtractError, "The %s eix-file is too small. (header missing?)"%filename)
+			raise (PMAExtractError, "The %s eix-file is too small. (data missing?)"%filename)
 		eix_res = eix_data
 	else:
 		raise (PMAExtractError, "The %s eix-file has an unrecognized magic header."%filename)
