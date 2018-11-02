@@ -3,7 +3,7 @@ from distutils.core import setup, Extension
 module1 = Extension(
 	'lzo',
 	libraries = ['lzo2'],
-	include_dirs = ['/usr/local/include/lzo'],
+	include_dirs = ['/usr/local/include'],
 	library_dirs = ['/usr/local/lib'],
 	sources = ['lzomodule.c'],
 )
