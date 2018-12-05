@@ -2,7 +2,7 @@
 ## Python Metin2 Archiver
 
 ### General
-This is an old 2013 project (py22 backward-compatible), but it works perfectly fine. It can be run on Windows, FreeBSD and everywhere else.
+This is an old 2013 cross-platform project (py22 backward-compatible), but it works perfectly fine. It can be run on Windows, FreeBSD, Linux, and everywhere else.
 Anything is written in python, and just the xtea/lzo algorithms are extended as PYD (cpython).
 The execution (compress/decompress) is very fast.
 
